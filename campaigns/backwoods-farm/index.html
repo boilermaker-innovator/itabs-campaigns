@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,4 +56,107 @@
     </div>
     <div style="padding: 25px; text-align: center; position: relative;">
         <div style="position: absolute; bottom: 12px; right: 15px;">
-            <div onclick="document.getElementById('itabsInfoPopup').style.display='flex'" style="width: 35px; height: 35px; background: rgba(255, 255, 255, 0.95); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0
+            <div onclick="document.getElementById('itabsInfoPopup').style.display='flex'" style="width: 35px; height: 35px; background: rgba(255, 255, 255, 0.95); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #05CE78; cursor: pointer;">
+                <div style="color: #05CE78; font-size: 14px; font-weight: bold; line-height: 1; margin-bottom: 1px;">i</div>
+                <div style="color: #05CE78; font-size: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1;">iTabs</div>
+            </div>
+        </div>
+        <h3 style="font-size: 1.3em; color: #2d3748; margin: 0 0 10px 0; font-weight: 600;">Introducing: Backwoods by Kettle Ridge</h3>
+        <p style="color: #718096; font-size: 1em; line-height: 1.6; margin: 0;">Swipe to see more • Click i for details</p>
+    </div>
+</div>
+
+</div>
+
+<div id="itabsPopup" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px;">
+    <div style="position: relative; background-color: white; border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #05CE78 0%, #00A862 100%); color: white; padding: 30px; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 1.5em;">Introducing: Backwoods by Kettle Ridge</h3>
+            <button onclick="document.getElementById('itabsPopup').style.display='none'" style="color: white; font-size: 40px; font-weight: bold; cursor: pointer; background: none; border: none; width: 40px; height: 40px;">&times;</button>
+        </div>
+        <div style="padding: 35px; max-height: calc(80vh - 120px); overflow-y: auto;">
+            <h4 style="color: #05CE78; font-size: 1.4em; margin: 0 0 15px 0;">What is it?</h4>
+            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin: 0 0 15px 0;">Backwoods is an outdoor music venue in upstate New York, created by the family behind Kettle Ridge Farm. They're building a community space for live music, local food, and good times - all set among the beautiful wooded hills of Victor, NY.</p>
+
+            <h4 style="color: #05CE78; font-size: 1.4em; margin: 25px 0 15px 0;">Why back this?</h4>
+            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin: 0 0 15px 0;">Help a local family farm expand into something special. They've already built a loyal following with 10,000+ fans in just one month. Your backing supports live music, local food, and a gathering place that brings the community together.</p>
+
+            <h4 style="color: #05CE78; font-size: 1.4em; margin: 25px 0 15px 0;">How does it work?</h4>
+            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin: 0 0 15px 0;">Choose a pledge tier to support the venue. Rewards include farm products, event tickets, and exclusive experiences at Backwoods. The team at Kettle Ridge has been running successful farm events since 2010 - they know how to deliver.</p>
+
+            <h4 style="color: #05CE78; font-size: 1.4em; margin: 25px 0 15px 0;">What makes it special?</h4>
+            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin: 0 0 15px 0;">It's not just a venue - it's a farm-to-table experience. The same family that makes award-winning maple syrup (featured in Vogue, Forbes, Food & Wine) is bringing that quality to outdoor entertainment. Real community, real food, real music.</p>
+
+            <a href="https://www.kickstarter.com/projects/kettleridgefarm/backwoods-by-kettle-ridge-farm" target="_blank" style="display: block; margin: 25px 0; padding: 15px; background: #05CE78; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em;">Back This Project</a>
+        </div>
+    </div>
+</div>
+
+<div id="itabsInfoPopup" style="display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px;">
+    <div style="position: relative; background-color: white; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #05CE78 0%, #00A862 100%); color: white; padding: 25px; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 1.5em;">✨ This uses iTabs</h3>
+            <button onclick="document.getElementById('itabsInfoPopup').style.display='none'" style="color: white; font-size: 35px; font-weight: bold; cursor: pointer; background: none; border: none; width: 35px; height: 35px;">&times;</button>
+        </div>
+        <div style="padding: 30px;">
+            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin: 0 0 25px 0;">This interactive display was created with iTabs - making campaigns easy to understand with clickable explanations.</p>
+            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin: 0 0 25px 0;"><strong>Want to create iTabs for your campaign?</strong></p>
+            <a href="https://itabs.ai" target="_blank" style="display: block; width: 100%; padding: 15px; background: linear-gradient(135deg, #05CE78 0%, #00A862 100%); color: white; border: none; border-radius: 12px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(5,206,120,0.3); text-align: center; text-decoration: none;">Create Your Own iTabs →</a>
+        </div>
+    </div>
+</div>
+
+<script>
+var itabsCurrentSlide = 0;
+var itabsTotalSlides = 5;
+
+function itabsUpdateCarousel() {
+    var track = document.getElementById('itabsTrack');
+    var counter = document.getElementById('itabsCounter');
+    var dots = document.querySelectorAll('.itabs-dot');
+    if (track) track.style.transform = 'translateX(-' + (itabsCurrentSlide * 100) + '%)';
+    if (counter) counter.textContent = (itabsCurrentSlide + 1) + '/' + itabsTotalSlides;
+    dots.forEach(function(dot, i) {
+        dot.style.background = i === itabsCurrentSlide ? 'white' : 'rgba(255,255,255,0.5)';
+    });
+}
+
+var trackEl = document.getElementById('itabsTrack');
+var touchStartX = 0;
+if (trackEl) {
+    trackEl.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; });
+    trackEl.addEventListener('touchend', function(e) {
+        var touchEndX = e.changedTouches[0].screenX;
+        if (touchEndX < touchStartX - 50) {
+            itabsCurrentSlide++;
+            if (itabsCurrentSlide >= itabsTotalSlides) itabsCurrentSlide = 0;
+            itabsUpdateCarousel();
+        } else if (touchEndX > touchStartX + 50) {
+            itabsCurrentSlide--;
+            if (itabsCurrentSlide < 0) itabsCurrentSlide = itabsTotalSlides - 1;
+            itabsUpdateCarousel();
+        }
+    });
+}
+document.querySelectorAll('.itabs-dot').forEach(function(dot, i) {
+    dot.addEventListener('click', function() {
+        itabsCurrentSlide = i;
+        itabsUpdateCarousel();
+    });
+});
+document.getElementById('itabsPopup').addEventListener('click', function(e) {
+    if (e.target.id === 'itabsPopup') this.style.display = 'none';
+});
+document.getElementById('itabsInfoPopup').addEventListener('click', function(e) {
+    if (e.target.id === 'itabsInfoPopup') this.style.display = 'none';
+});
+
+setInterval(function() {
+    itabsCurrentSlide++;
+    if (itabsCurrentSlide >= itabsTotalSlides) itabsCurrentSlide = 0;
+    itabsUpdateCarousel();
+}, 5000);
+</script>
+
+</body>
+</html>
