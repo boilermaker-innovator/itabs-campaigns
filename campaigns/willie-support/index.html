@@ -8,10 +8,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #00b964 0%, #00a857 100%);
+            background: linear-gradient(135deg, #5ddb9a 0%, #3ec97a 100%);
             min-height: 100vh;
             padding: 20px;
-            padding-bottom: 80px;
         }
     </style>
 </head>
@@ -37,24 +36,23 @@
     </div>
 </div>
 
-<!-- FIXED DONATE BUTTON -->
-<div style="position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:white;box-shadow:0 -4px 20px rgba(0,0,0,0.15);z-index:998;">
-    <a href="https://www.gofundme.com/f/support-willie-through-his-health-and-hardship" target="_blank" style="display:block;width:100%;max-width:480px;margin:0 auto;padding:16px;background:linear-gradient(135deg,#00b964,#00a857);color:white;text-align:center;text-decoration:none;border-radius:12px;font-weight:600;font-size:1.1em;box-shadow:0 4px 15px rgba(0,185,100,0.4);">💚 Donate Now</a>
-</div>
-
 <!-- Info Popup -->
 <div id="itabsPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:15px;">
-    <div style="background:white;border-radius:20px;max-width:450px;width:90%;max-height:85vh;overflow:hidden;">
-        <div style="background:linear-gradient(135deg,#00b964,#00a857);color:white;padding:24px;position:relative;">
+    <div style="background:white;border-radius:20px;max-width:450px;width:90%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="background:linear-gradient(135deg,#00b964,#00a857);color:white;padding:24px;position:relative;flex-shrink:0;">
             <h3 style="font-size:1.3em;margin:0 0 4px 0;">Support Willie Through His Health and Hardship</h3>
             <p style="opacity:0.9;font-size:0.9em;margin:0;">The Full Story</p>
             <button onclick="document.getElementById('itabsPopup').style.display='none'" style="position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(255,255,255,0.2);border:none;border-radius:50%;color:white;font-size:20px;cursor:pointer;">×</button>
         </div>
-        <div style="padding:24px;max-height:calc(85vh - 100px);overflow-y:auto;">
+        <div style="padding:24px;overflow-y:auto;flex:1;">
             <div style="margin-bottom:16px;"><h4 style="color:#00b964;font-size:1em;margin-bottom:6px;">🚨 The Crisis</h4><p style="color:#4a5568;line-height:1.6;font-size:0.95em;">My name is Willie, and I'm 58 years old. I lost my job on April 30, 2025, due to budget cuts after having special permission to work from home because of my Symptomatic chronic systolic heart failure and Trigeminal Neuralgia. I filed for disability benefits on May 14, but it's been months with no decision.</p></div>
             <div style="margin-bottom:16px;"><h4 style="color:#00b964;font-size:1em;margin-bottom:6px;">💔 Why We Need Help</h4><p style="color:#4a5568;line-height:1.6;font-size:0.95em;">I'm writing this because I need help to stay in my apartment. Because of my medical conditions, I can't travel far enough to find work, making temp jobs and retail impossible. My world is now confined to my apartment and the growing stack of bills.</p></div>
             <div style="margin-bottom:16px;"><h4 style="color:#00b964;font-size:1em;margin-bottom:6px;">💰 Where Money Goes</h4><p style="color:#4a5568;line-height:1.6;font-size:0.95em;">I need enough money to cover rent and the barest utilities until the SSA makes a decision on my disability claim. Sharing a few dollars, or even just this story, might keep the lights on for one more month.</p></div>
             <div style="margin-bottom:16px;"><h4 style="color:#00b964;font-size:1em;margin-bottom:6px;">✅ Why Trust This</h4><p style="color:#4a5568;line-height:1.6;font-size:0.95em;">I'm not writing this for pity. I need help to stay in the apartment that has been my home, my office, my safe harbor, until SSA finally decides whether the rest of my life will be livable.</p></div>
+        </div>
+        <!-- FIXED DONATE BUTTON IN POPUP -->
+        <div style="padding:16px 24px;border-top:1px solid #e2e8f0;background:white;flex-shrink:0;">
+            <a href="https://www.gofundme.com/f/support-willie-through-his-health-and-hardship" target="_blank" style="display:block;width:100%;padding:16px;background:linear-gradient(135deg,#00b964,#00a857);color:white;text-align:center;text-decoration:none;border-radius:12px;font-weight:600;font-size:1.05em;box-shadow:0 4px 15px rgba(0,185,100,0.3);">💚 Donate Now</a>
         </div>
     </div>
 </div>
