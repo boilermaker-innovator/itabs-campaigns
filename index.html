@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tiamoyo Empower Project | Help Farmers Thrive</title>
+    <meta name="description" content="Empowering farmers in Northern Tanzania through conservation agriculture, training and equipment. See where your donation goes.">
+    <meta property="og:title" content="Tiamoyo Empower Project - Help Tanzanian Farmers Thrive">
+    <meta property="og:description" content="$7 trains a farmer for a day. See exactly where your money goes.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --earth: #2d1b0e;
+            --earth-light: #3d2b1a;
+            --soil: #5c3d2e;
+            --green-deep: #1a4d2e;
+            --green-bright: #2ecc71;
+            --green-soft: #27ae60;
+            --gold: #f0a500;
+            --gold-light: #ffd166;
+            --sand: #f5e6c8;
+            --cream: #faf3e6;
+            --text-light: #faf3e6;
+            --text-muted: #c4a882;
+            --text-dark: #2d1b0e;
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--earth);
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 460px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: var(--earth);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px 8px;
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(45,27,14,0.95) 0%, transparent 100%);
+        }
+
+        .progress-segment {
+            flex: 1;
+            height: 3px;
+            background: rgba(250,243,230,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .progress-segment.active { background: var(--gold); }
+        .progress-segment.viewed { background: var(--green-bright); }
+
+        /* Header */
+        .header {
+            padding: 44px 16px 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .org-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--green-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .header-info { flex: 1; overflow: hidden; }
+
+        .org-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--gold);
+        }
+
+        .org-tagline {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .donate-header-btn {
+            background: var(--green-bright);
+            color: var(--earth);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .donate-header-btn:hover { background: var(--green-soft); transform: scale(1.05); }
+
+        /* Cards */
+        .cards-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-zone {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 30%;
+            z-index: 50;
+            cursor: pointer;
+        }
+        .nav-zone.left { left: 0; }
+        .nav-zone.right { right: 0; }
+
+        .card {
+            position: absolute;
+            inset: 0;
+            padding: 12px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: transform 0.35s ease, opacity 0.35s ease;
+            pointer-events: none;
+        }
+
+        .card.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+        .card.prev { transform: translateX(-100%); }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        /* Card Image Area */
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            position: relative;
+            overflow: hidden;
+            background: var(--earth-light);
+        }
+
+        .card-image-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-image-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 40px 16px 12px;
+            background: linear-gradient(to top, rgba(45,27,14,0.95) 0%, transparent 100%);
+        }
+
+        .card-image-overlay .card-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .emoji-hero {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            background: linear-gradient(135deg, var(--green-deep), var(--earth-light));
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--earth-light);
+            overflow-y: auto;
+        }
+
+        .card-body::-webkit-scrollbar { width: 0; }
+
+        .card-headline {
+            font-family: 'DM Serif Display', serif;
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            color: var(--cream);
+        }
+
+        .card-summary {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            flex: 1;
+        }
+
+        .card-summary strong { color: var(--gold-light); font-weight: 600; }
+
+        /* Impact Stat */
+        .impact-stat {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(46,204,113,0.08);
+            border: 1px solid rgba(46,204,113,0.2);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 14px;
+        }
+
+        .impact-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 28px;
+            color: var(--green-bright);
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .impact-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* i-Buttons */
+        .i-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .i-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--soil);
+            border: 1px solid rgba(250,243,230,0.1);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--cream);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .i-btn:hover { background: var(--green-deep); border-color: var(--green-bright); }
+
+        .i-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            color: var(--earth);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            font-style: italic;
+            flex-shrink: 0;
+        }
+
+        /* Donation Card Specific */
+        .give-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .give-option {
+            background: var(--soil);
+            border: 2px solid rgba(250,243,230,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+            font-family: inherit;
+            color: var(--cream);
+        }
+
+        .give-option:hover, .give-option.selected {
+            border-color: var(--green-bright);
+            background: rgba(46,204,113,0.1);
+            transform: translateY(-2px);
+        }
+
+        .give-amount {
+            font-family: 'DM Serif Display', serif;
+            font-size: 26px;
+            color: var(--green-bright);
+            display: block;
+        }
+
+        .give-impact {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        .give-cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-top: 14px;
+            background: var(--green-bright);
+            color: var(--earth);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .give-cta:hover { background: var(--green-soft); transform: translateY(-1px); }
+
+        .tax-note {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* People Cards */
+        .person-card {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-top: 14px;
+            padding: 14px;
+            background: rgba(250,243,230,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(250,243,230,0.06);
+        }
+
+        .person-emoji {
+            font-size: 36px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .person-info h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 16px;
+            color: var(--gold-light);
+            font-weight: 400;
+        }
+
+        .person-info .role {
+            font-size: 12px;
+            color: var(--green-bright);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .person-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* Work Ethic Banner */
+        .ethic-list {
+            list-style: none;
+            margin-top: 14px;
+        }
+
+        .ethic-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(250,243,230,0.06);
+            font-size: 14px;
+            color: var(--cream);
+        }
+
+        .ethic-list li:last-child { border-bottom: none; }
+
+        .ethic-num {
+            width: 28px;
+            height: 28px;
+            background: var(--gold);
+            color: var(--earth);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 8px 16px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .footer a {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-decoration: none;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .footer a:hover { opacity: 1; }
+
+        .footer .sep { color: var(--text-muted); opacity: 0.3; font-size: 11px; }
+
+        /* Swipe Hint */
+        .swipe-hint {
+            text-align: center;
+            padding: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+
+        .swipe-hint.hidden { display: none; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal {
+            background: var(--earth-light);
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 460px;
+            max-height: 70vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal { transform: translateY(0); }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 20px 0;
+            position: sticky;
+            top: 0;
+            background: var(--earth-light);
+        }
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title span:first-child {
+            font-family: 'DM Serif Display', serif;
+            font-size: 18px;
+            color: var(--cream);
+        }
+
+        .type-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gold);
+            background: rgba(240,165,0,0.15);
+            padding: 3px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: var(--soil);
+            border: none;
+            border-radius: 50%;
+            color: var(--cream);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 16px 20px 24px;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Scrollbar hide for card body */
+        .card-body { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Progress -->
+        <div class="progress-container" id="progress"></div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="org-avatar">🌱</div>
+            <div class="header-info">
+                <div class="org-name">Tiamoyo Empower Project</div>
+                <div class="org-tagline">Empowering farmers in Northern Tanzania</div>
+            </div>
+            <a href="https://tiamoyo-gdg-j919n.raisely.com/" target="_blank" class="donate-header-btn">Donate</a>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards-wrapper" id="cardsWrapper">
+            <div class="nav-zone left" id="navLeft"></div>
+            <div class="nav-zone right" id="navRight"></div>
+        </div>
+
+        <!-- Swipe Hint -->
+        <div class="swipe-hint" id="swipeHint">← Swipe or tap edges to navigate →</div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <a href="https://www.empowerproject.info" target="_blank">empowerproject.info</a>
+            <span class="sep">·</span>
+            <a href="https://www.facebook.com/empowerproject.info" target="_blank">Facebook</a>
+            <span class="sep">·</span>
+            <a href="https://www.instagram.com/tiamoyoempower/" target="_blank">Instagram</a>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <span id="modalTerm"></span>
+                        <span class="type-badge" id="modalType"></span>
+                    </div>
+                    <button class="modal-close" id="modalClose">×</button>
+                </div>
+                <div class="modal-body" id="modalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CARDS = [
+            // Card 1: The Hook
+            {
+                emoji: "🌍",
+                label: "THE PROBLEM",
+                headline: "40 Million People. 10% of What's Possible.",
+                summary: `In rural Tanzania, nearly <strong>40 million people</strong> live in villages and rely on dry land farming. Most live in poverty.\n\nFarmers average just <strong>0.4 tonnes per acre</strong> — only 10% of what's achievable. Old methods destroy the soil. And now <strong>Fall Armyworm</strong> is devastating crops across the country, wiping out half of Tanzania's maize.`,
+                impact: { number: "0.4t", label: "Average yield per acre in Tanzania vs 4t+ achievable" },
+                iButtons: [
+                    { type: "context", term: "Why So Low?", content: "Traditional farming in Tanzania relies on ploughing and burning — practices that destroy soil structure, kill beneficial microbes, expose soil to erosion, and promote evaporation. It's a downward spiral: each year the soil gets worse, yields drop further, and poverty deepens. The same thing happened in Western Australia's wheat belt before conservation farming saved it." },
+                    { type: "context", term: "Fall Armyworm", content: "A devastating caterpillar pest that crossed from Kenya a few years ago and now causes around half of Tanzania's maize to be lost. It literally devours all the seeds off the cob. Requires multiple sprays to kill the butterflies. This is a massive new threat on top of existing challenges — making proper farming techniques and crop management even more critical." },
+                    { type: "why-it-matters", term: "Why It Matters", content: "Tanzania has the land, the climate, and the people. What's missing is knowledge and equipment. If farmers can double their yields, a single village with 2,000+ acres could generate over $400,000 in additional income per year. That's the difference between poverty and prosperity — and it's achievable with proven techniques." }
+                ]
+            },
+            // Card 2: The Solution
+            {
+                emoji: "🌾",
+                label: "THE SOLUTION",
+                headline: "Don't Plough. Don't Burn. Just Grow.",
+                summary: `<strong>Conservation Agriculture</strong> is simple: stop ploughing, stop burning, and let mulch protect the soil.\n\nIt's the same approach that rescued Western Australia's wheat belt in the 1980s. The soil heals itself — microbes return, moisture stays, yields climb year after year instead of falling.`,
+                impact: { number: "2x+", label: "Yield increase when farmers adopt conservation techniques" },
+                iButtons: [
+                    { type: "definition", term: "Conservation Agriculture", content: "A farming system based on three principles: (1) Minimum soil disturbance — no ploughing, just plant directly into the stubble. (2) Permanent soil cover — mulch acts like a blanket, keeping soil cool, moist, and protected from erosion. (3) Crop rotation — different crops each season keep soil healthy. It's not new technology — it's working WITH nature instead of against it." },
+                    { type: "context", term: "The WA Connection", content: "By the 1980s, Western Australia's wheat belt was in serious trouble — soil degradation from decades of ploughing. Farmers switched to no-till conservation agriculture and it transformed everything. Yields more than doubled. Soil recovered. Peter Hack grew up in that farming community and saw the transformation firsthand. Now he's bringing those same proven techniques to Tanzania." },
+                    { type: "why-it-matters", term: "Climate Change", content: "With climate change making droughts more frequent in East Africa, conservation agriculture is a lifeline. The mulch blanket keeps every drop of moisture in the soil. In drought years where conventional farmers get nothing, conservation farmers still harvest a viable crop. It's not just better farming — it's drought insurance." }
+                ]
+            },
+            // Card 3: The People - Pete & Lesley
+            {
+                emoji: "👨‍🌾",
+                label: "MEET THE FOUNDERS",
+                headline: "From a WA Farm Kid to Changing Lives",
+                summaryHTML: `
+                    <div class="person-card">
+                        <div class="person-emoji">👨‍🔧</div>
+                        <div class="person-info">
+                            <div class="role">Co-Founder</div>
+                            <h3>Peter Hack</h3>
+                            <p>At 16, Pete took over the family farm in South West WA because his dad was drinking. Turned poverty into prosperity. Now he brings that same grit to Tanzanian farmers — designing machinery, training leaders, getting it done.</p>
+                        </div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-emoji">💪</div>
+                        <div class="person-info">
+                            <div class="role">Co-Founder</div>
+                            <h3>Lesley Hack</h3>
+                            <p>The hero behind the scenes. 25+ years of leadership, event planning, and serving community. Known as "Mama" by the team in Tanzania. BA in Biblical Studies, TESOL qualified, now tutors primary students.</p>
+                        </div>
+                    </div>
+                `,
+                iButtons: [
+                    { type: "context", term: "The Tiamoyo Network", content: "Tiamoyo has worked with community leaders in Tanzania for over 15 years, building a leadership training network across 40+ villages and towns in Northern Tanzania. Founded by Mike and Lyndall Rothery in 1994, the network includes 2,000+ leaders. Pete and Lesley joined forces with this network to add agricultural development to the existing leadership foundation." },
+                    { type: "why-it-matters", term: "Pete's Approach", content: "Pete isn't an aid worker who flies in with a clipboard. He's a farmer and tradesman who designs and builds machinery, ships it to Tanzania, and personally trains local leaders to use it. His approach centres on three things: do it on time, do it to a good standard, do it without waste. Simple disciplines that make the difference between a project that works and one that fails." }
+                ]
+            },
+            // Card 4: The People on the Ground
+            {
+                emoji: "🇹🇿",
+                label: "ON THE GROUND",
+                headline: "Real People. Real Results.",
+                summaryHTML: `
+                    <div class="person-card">
+                        <div class="person-emoji">🧑‍🌾</div>
+                        <div class="person-info">
+                            <div class="role">Local Leader</div>
+                            <h3>Polycarp</h3>
+                            <p>Leads the team in Tanzania. Organised the water bore drilling, manages farm operations, and keeps things moving between Pete's annual visits. Incredible initiative.</p>
+                        </div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-emoji">🌾</div>
+                        <div class="person-info">
+                            <div class="role">Farm Team</div>
+                            <h3>Meshack, Elias & Joseph</h3>
+                            <p>The crew running the Agape farm day-to-day. Two tractors (including a Leyland brought from Australia), growing what could be <strong>their best crop yet</strong> in 2025.</p>
+                        </div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-emoji">🔬</div>
+                        <div class="person-info">
+                            <div class="role">New — Agricultural Scientist</div>
+                            <h3>Dr. Diana Fedorenko</h3>
+                            <p>Full-time missionary and no-till conservation expert from Foundations for Farming in Zimbabwe. Now helping train Tiamoyo's trainers and structure Agape as a proper training base.</p>
+                        </div>
+                    </div>
+                `,
+                iButtons: [
+                    { type: "context", term: "Agape College", content: "Agape College near Arusha is the base of operations, sitting on about 2 acres of land. The campus now has a full brick boundary wall for security, a workshop for manufacturing maize planters, student and staff accommodation, and the farm. A tourist lake called Diluti borders the back — there might even be pygmy hippos in there." },
+                    { type: "context", term: "Foundations for Farming", content: "FfF is a Zimbabwe-based organisation that has spread no-till conservation agriculture across many African countries and worldwide. Dr. Diana Fedorenko is arranging for Tiamoyo's leaders to attend FfF training in Rwanda — a major step up in capability. This means Tiamoyo won't just be farming well, they'll be training other trainers who can spread the knowledge across more villages." },
+                    { type: "why-it-matters", term: "Local Leadership", content: "This is what makes Tiamoyo different from most aid projects. Polycarp, Meshack, Elias, and Joseph keep things running year-round. The whole model is built on empowering locals to lead — because as Tiamoyo says, 'unless the community leaders have ownership, any project will fail.' Pete visits annually but the real work happens every day on the ground." }
+                ]
+            },
+            // Card 5: The Three Pillars
+            {
+                emoji: "🏗️",
+                label: "THE APPROACH",
+                headline: "Three Things That Make It Work",
+                summaryHTML: `
+                    <p style="font-size:14px;color:var(--text-muted);margin-bottom:10px;">Most aid projects fail because they skip the foundation. Tiamoyo starts with character and leadership, then builds everything else on top.</p>
+                    <ol class="ethic-list">
+                        <li><span class="ethic-num">1</span><div><strong style="color:var(--gold-light)">Leadership & Character</strong><br><span style="font-size:13px;color:var(--text-muted)">The "missing ingredient" in aid. Empower local leaders to own the change. Work ethic, integrity, vision.</span></div></li>
+                        <li><span class="ethic-num">2</span><div><strong style="color:var(--gold-light)">Conservation Agriculture</strong><br><span style="font-size:13px;color:var(--text-muted)">No-till farming that heals soil, retains moisture, and doubles yields. Proven in WA, now working in Tanzania.</span></div></li>
+                        <li><span class="ethic-num">3</span><div><strong style="color:var(--gold-light)">Business & Markets</strong><br><span style="font-size:13px;color:var(--text-muted)">Better crops mean nothing without buyers. Training includes marketing, grain handling, and connecting to high-value markets.</span></div></li>
+                    </ol>
+                `,
+                iButtons: [
+                    { type: "definition", term: "Work Ethic Basics", content: "Pete's three non-negotiable disciplines: (1) Do it on time. (2) Do it to a good standard. (3) Do it without waste. These seem simple, but they're the exact reason most agricultural projects fail. Tiamoyo's local staff walk alongside farmers throughout the season as mentors, not just lecturers — and this consistent support is the key to success." },
+                    { type: "context", term: "Why Leaders First?", content: "Tiamoyo has seen it repeatedly: when community leaders are inspired and empowered, they grab every opportunity with both hands. When they're bypassed or passive, projects collapse. That's why leadership training comes BEFORE agricultural training. Character development, goal setting, expanding worldview — these create the foundation that makes everything else sustainable." }
+                ]
+            },
+            // Card 6: The Impact
+            {
+                emoji: "💧",
+                label: "2025 MILESTONES",
+                headline: "Water. Walls. Best Crop Yet.",
+                summary: `<strong>Water bore drilled to 105 metres</strong> — permanent water supply found! This is a game changer: crops can now grow year-round.\n\n<strong>Full boundary wall complete</strong> around Agape College — security for the workshop, students, and staff.\n\nAnd 2025 is shaping up to be <strong>their best harvest ever</strong>, with yields doubled from 6 to 12 bags per acre since starting, and some plots hitting 20.`,
+                impact: { number: "105m", label: "Depth of the new water bore — permanent water for the farm" },
+                iButtons: [
+                    { type: "context", term: "The Water Story", content: "First Polycarp tried the local method — digging a well by hand. It failed because the water was too deep and there were too many large rocks. Dangerous work. Then it took a long time to get a permit to drill. Finally, through Bishop Yona, they engaged a drilling contractor and hit an abundant water supply at 94 metres, drilling to 105 metres to ensure plenty. Funded by Lifestreams Church and an anonymous donor. It cost more than hoped but it's done — and it changes everything." },
+                    { type: "why-it-matters", term: "Why Water Changes Everything", content: "Before the bore, farming depended entirely on rainfall — one bad season and the crop fails. Now with permanent water, Agape farm can grow grain AND vegetables year-round. That means food security for the college, produce to sell, and a proper demonstration farm to train other farmers. It also means irrigation land becomes viable, opening up crops like rice that weren't possible before." },
+                    { type: "context", term: "Political Situation", content: "Tanzania is going through a difficult period. In late 2025, the president jailed opposition leaders and banned them from running in elections. Violence erupted after the elections and continues despite government crackdown. This affects the project — the planned Foundations for Farming training in Rwanda has been delayed by instability. Pete's next mission trip is planned for Feb/March 2026. Please keep the team in your thoughts." }
+                ]
+            },
+            // Card 7: Give
+            {
+                emoji: "💚",
+                label: "YOUR TURN",
+                headline: "See Where Every Dollar Goes",
+                summaryHTML: `
+                    <p style="font-size:14px;color:var(--text-muted);margin-bottom:4px;">Every donation through GDG is <strong style="color:var(--green-bright)">tax deductible</strong> in Australia ($2+).</p>
+                    <div class="give-grid">
+                        <button class="give-option" onclick="selectGive(this)">
+                            <span class="give-amount">$10</span>
+                            <span class="give-impact">Seeds & spray to protect crops from Armyworm</span>
+                        </button>
+                        <button class="give-option" onclick="selectGive(this)">
+                            <span class="give-amount">$25</span>
+                            <span class="give-impact">One farmer through a training workshop</span>
+                        </button>
+                        <button class="give-option" onclick="selectGive(this)">
+                            <span class="give-amount">$100</span>
+                            <span class="give-impact">Farm equipment maintenance for the season</span>
+                        </button>
+                        <button class="give-option" onclick="selectGive(this)">
+                            <span class="give-amount">$250</span>
+                            <span class="give-impact">Train-the-trainer program with Dr. Diana</span>
+                        </button>
+                    </div>
+                    <a href="https://tiamoyo-gdg-j919n.raisely.com/" target="_blank" class="give-cta">Donate Now →</a>
+                    <p class="tax-note">Registered Charity through Global Development Group · Project #J919N</p>
+                `,
+                iButtons: [
+                    { type: "context", term: "About GDG", content: "Tiamoyo Empower Project is a registered charity through Global Development Group (GDG). GDG is an Australian DFAT-approved NGO that provides accountability and oversight for development projects. All donations of $2 or more are tax deductible in Australia. Your money goes through proper channels with full transparency." },
+                    { type: "why-it-matters", term: "Small Amounts Matter", content: "You don't need to give a lot. $10 buys seeds. $70 drills another foot of water bore. The point isn't the size of the gift — it's the connection. When you give $10 and know it became seeds in a Tanzanian farmer's hand, that's real. And next time, maybe you give again. That's how communities get built — one small, meaningful contribution at a time." }
+                ]
+            },
+            // Card 8: Stay Connected
+            {
+                emoji: "🤝",
+                label: "STAY CONNECTED",
+                headline: "Follow the Journey",
+                summary: `Pete's next mission trip is planned for <strong>February/March 2026</strong> — training farmers, checking the new water bore, and supporting the team through a challenging political season.\n\nDr. Diana will be structuring Agape as a proper training base, with leaders set to attend Foundations for Farming training in Rwanda.\n\n<strong>Follow along and see your impact grow.</strong>`,
+                iButtons: [
+                    { type: "related", term: "Website", content: "Visit empowerproject.info to learn more about the project, read blog updates, see the team, and subscribe to the mailing list for regular updates from Tanzania." },
+                    { type: "related", term: "Facebook", content: "Follow Tiamoyo Empower Project on Facebook (facebook.com/empowerproject.info) for photos, stories, and real-time updates from the ground in Tanzania." },
+                    { type: "related", term: "Contact", content: "Want to know more or get involved? Email contact@empowerproject.info or call +61 412 405 772. Pete and Lesley are always happy to chat about the project." }
+                ]
+            }
+        ];
+
+        // State
+        let currentCard = 0;
+        const totalCards = CARDS.length;
+
+        // DOM
+        const progress = document.getElementById('progress');
+        const cardsWrapper = document.getElementById('cardsWrapper');
+        const navLeft = document.getElementById('navLeft');
+        const navRight = document.getElementById('navRight');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTerm = document.getElementById('modalTerm');
+        const modalType = document.getElementById('modalType');
+        const modalContent = document.getElementById('modalContent');
+        const modalClose = document.getElementById('modalClose');
+        const swipeHint = document.getElementById('swipeHint');
+
+        function init() {
+            // Progress segments
+            for (let i = 0; i < totalCards; i++) {
+                const seg = document.createElement('div');
+                seg.className = 'progress-segment';
+                progress.appendChild(seg);
+            }
+
+            // Build cards
+            CARDS.forEach((card, i) => {
+                const el = createCard(card, i);
+                cardsWrapper.insertBefore(el, navLeft);
+            });
+
+            updateCard(0);
+
+            // Navigation
+            navLeft.addEventListener('click', () => navigate(-1));
+            navRight.addEventListener('click', () => navigate(1));
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') navigate(-1);
+                if (e.key === 'ArrowRight') navigate(1);
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // Touch
+            let startX = 0;
+            cardsWrapper.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+            cardsWrapper.addEventListener('touchend', (e) => {
+                const diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+            });
+
+            [navLeft, navRight].forEach(el => {
+                el.addEventListener('click', () => { swipeHint.classList.add('hidden'); }, { once: true });
+            });
+        }
+
+        function createCard(card, index) {
+            const el = document.createElement('div');
+            el.className = 'card';
+            el.dataset.index = index;
+
+            // Image area
+            const imageHTML = `<div class="card-image">
+                <div class="emoji-hero">${card.emoji}</div>
+                <div class="card-image-overlay">
+                    <div class="card-label">${card.label}</div>
+                </div>
+            </div>`;
+
+            // Body content
+            let bodyContent = '';
+            if (card.summaryHTML) {
+                bodyContent = card.summaryHTML;
+            } else {
+                bodyContent = `<p class="card-summary">${card.summary.replace(/\n/g, '<br>')}</p>`;
+            }
+
+            // Impact stat
+            let impactHTML = '';
+            if (card.impact) {
+                impactHTML = `<div class="impact-stat">
+                    <div class="impact-number">${card.impact.number}</div>
+                    <div class="impact-label">${card.impact.label}</div>
+                </div>`;
+            }
+
+            // i-Buttons
+            let iButtonsHTML = '';
+            if (card.iButtons && card.iButtons.length > 0) {
+                const btns = card.iButtons.map(btn => {
+                    const label = btn.term || getTypeLabel(btn.type);
+                    return `<button class="i-btn" data-type="${btn.type}" data-term="${btn.term || ''}" data-content="${encodeURIComponent(btn.content)}">
+                        <span class="i-icon">i</span>
+                        ${label}
+                    </button>`;
+                }).join('');
+                iButtonsHTML = `<div class="i-buttons">${btns}</div>`;
+            }
+
+            el.innerHTML = `
+                <div class="card-content">
+                    ${imageHTML}
+                    <div class="card-body">
+                        <h2 class="card-headline">${card.headline}</h2>
+                        ${bodyContent}
+                        ${impactHTML}
+                        ${iButtonsHTML}
+                    </div>
+                </div>
+            `;
+
+            // i-button handlers
+            el.querySelectorAll('.i-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal(
+                        btn.dataset.term || getTypeLabel(btn.dataset.type),
+                        btn.dataset.type,
+                        decodeURIComponent(btn.dataset.content)
+                    );
+                });
+            });
+
+            return el;
+        }
+
+        function getTypeLabel(type) {
+            return { 'definition': 'Definition', 'context': 'Background', 'why-it-matters': 'Why It Matters', 'related': 'Link' }[type] || type;
+        }
+
+        function navigate(dir) {
+            const next = currentCard + dir;
+            if (next >= 0 && next < totalCards) updateCard(next);
+        }
+
+        function updateCard(index) {
+            document.querySelectorAll('.card').forEach((card, i) => {
+                card.classList.remove('active', 'prev');
+                if (i === index) card.classList.add('active');
+                else if (i < index) card.classList.add('prev');
+            });
+            document.querySelectorAll('.progress-segment').forEach((seg, i) => {
+                seg.classList.remove('active', 'viewed');
+                if (i === index) seg.classList.add('active');
+                else if (i < index) seg.classList.add('viewed');
+            });
+            currentCard = index;
+        }
+
+        function openModal(term, type, content) {
+            modalTerm.textContent = term;
+            modalType.textContent = getTypeLabel(type);
+            modalContent.innerHTML = content;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() { modalOverlay.classList.remove('active'); }
+
+        function selectGive(el) {
+            document.querySelectorAll('.give-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        init();
+    </script>
+</body>
+</html>
